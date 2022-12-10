@@ -50,38 +50,40 @@ public class DashboardStepDefs
         // USERS
             //Run Query
             DB_Util.runQuery("select count(*) from users");
-
-            //Store Data
+//
+//            //Store Data
             String expectedUsers = DB_Util.getCellValue(1,1);
-
-            //Compare
+//            String expectedUsers = DB_Util.getFirstRowFirstColumn();
+//
+//
+//            //Compare
             Assert.assertEquals(expectedUsers,actualUserNumbers);
 
-        // BOOKS
-
-            //Run Query
-            DB_Util.runQuery("select count(*) from books");
-            //Store Data
-            String expectedBook = DB_Util.getFirstRowFirstColumn();
-            //Compare
-            Assert.assertEquals(expectedBook,actualBookNumbers);
-
-
-        // BORROWED BOOKS
-
-            //Run Query
+//        // BOOKS
+//
+//            //Run Query
+           DB_Util.runQuery("select count(*) from books");
+//            //Store Data
+           String expectedBook = DB_Util.getFirstRowFirstColumn();
+//            //Compare
+           Assert.assertEquals(expectedBook,actualBookNumbers);
+//
+//
+//        // BORROWED BOOKS
+//
+//            //Run Query
             DB_Util.runQuery("select count(*) from book_borrow\n" +
                     "where is_returned=0");
-            //Store Data
+//            //Store Data
             String expectedBorrowedBook = DB_Util.getFirstRowFirstColumn();
-            //Compare
+//            //Compare
             Assert.assertEquals(expectedBorrowedBook,actualBorrowedBookNumbers);
 
 
 
 
         // Close Connection
-        // DB_Util.destroy(); --> After("@db") will close connections
+//        DB_Util.destroy(); //--> After("@db") will close connections
 
     }
 

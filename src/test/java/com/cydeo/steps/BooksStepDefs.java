@@ -69,61 +69,33 @@ public class BooksStepDefs {
     @Then("book information must match the database for {string}")
     public void book_information_must_match_the_database_for(String bookName) {
 
-        BrowserUtil.waitFor(4);
-        System.out.println("-----Assertion step-----");
+
+        BrowserUtil.waitFor(2);
         System.out.println(bookPage.bookName.getText());
-        System.out.println("getAttribute(value)--> "+bookPage.bookName.getAttribute("value"));
-        System.out.println("bookPage.bookName.getAttribute(\"innerHTML\") = " + bookPage.bookName.getAttribute("innerHTML"));
-
-        System.out.println("bookPage.bookName.getAttribute(\"outerHTML\") = " + bookPage.bookName.getAttribute("outerHTML"));
-
+        System.out.println("getAttribute(Value) --> "+ bookPage.bookName.getAttribute("value"));
+        System.out.println("bookPage.bookName.getAttribute(\"innerHTML\")= " + bookPage.bookName.getAttribute("innerHTML"));
         /*
-        1.getText() --> it will return text from provided element
-        2.getAttribute("value") --> if there is inputbox we are gonna use getattribute("value") to get data from here
-
-        3.getAttribute("innerHTML") --> it will get HTML code inside related element
-            it will return only inner HTML -->   <span>Hello CYDEO</span>
-        4.getAttribute("outerHTML") --> it will get HTML code inside related element + current element HTML code
-            it will return inner + cuurent HTML
-                <div>
-                <span>Hello CYDEO</span>
-                </div>
-
-            <div>
-                <span>Hello CYDEO</span>
-            </div>
+        1. getText() --> it will return text from provided element
+        2. getAttribute("Value") --> if there is a input box we are gonna use getAttribute("value") to get data from here
+        3. getAttribute("Inner HTML") --> it will get HTML code for related element
          */
-
-        // get data from UI
+        //Get Data from UI
         String actualBookName = bookPage.bookName.getAttribute("value");
         String actualAuthorName = bookPage.author.getAttribute("value");
-        String actualISBN=bookPage.isbn.getAttribute("value");
-        String actualYear = bookPage.year.getAttribute("value");
-        String actualDesc = bookPage.description.getAttribute("value");
 
         // get data from Database
-        String query="select name,isbn,author,description,year from books\n" +
-                "where name='"+bookName+"'";
-
-        DB_Util.runQuery(query);
-        //store information
-        Map<String, String> bookInfo = DB_Util.getRowMap(1);
-
-        System.out.println("---- DATA FROM DATABASE ---- ");
-        String expectedBookName = bookInfo.get("name");
-        System.out.println(expectedBookName);
-        String expectedAuthorName = bookInfo.get("author");
-        String expectedISBN = bookInfo.get("isbn");
-        String expectedYear = bookInfo.get("year");
-        String expectedDesc = bookInfo.get("description");
+        bookPage.isbn.getAttribute("value");
+        bookPage.year.getAttribute("value");
+        bookPage.description.getAttribute("value");
+        
 
 
-        // compare
-        Assert.assertEquals(expectedBookName,actualBookName);
-        Assert.assertEquals(expectedAuthorName,actualAuthorName);
-        Assert.assertEquals(expectedISBN,actualISBN);
-        Assert.assertEquals(expectedYear,actualYear);
-        Assert.assertEquals(expectedDesc,actualDesc);
+
+
+
+        //compare
+
+
 
 
 
