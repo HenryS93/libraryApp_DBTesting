@@ -10,85 +10,81 @@ import org.openqa.selenium.support.ui.Select;
 
 public class UsersStepDefs {
 
-    UsersPage usersPage=new UsersPage();
+    UsersPage usersPage = new UsersPage();
     String email;
     String expectedStatus;
+    String activeStatus;
+
+
 
     @When("the user clicks Edit User button")
     public void the_user_clicks_edit_user_button() {
-        BrowserUtil.waitFor(2);
-        usersPage.editUser.click();
+
+    usersPage.editUser.click();
+
     }
+
+
     @When("the user changes user status {string} to {string}")
     public void the_user_changes_user_status_to(String active, String inactive) {
-        BrowserUtil.waitFor(2);
+//        Select select = new Select(usersPage.userStatusDropdown);
+//        select.selectByVisibleText(inactive);
 
-       /* Select select=new Select(usersPage.statusDropdown);
-        select.selectByVisibleText(inactive);*/
-
-        BrowserUtil.selectByVisibleText(usersPage.statusDropdown,inactive);
+        BrowserUtil.selectByVisibleText(usersPage.userStatusDropdown,inactive);
 
         email = usersPage.email.getAttribute("value");
-        System.out.println("email = " + email);
+        System.out.println("email= " + email);
 
         BrowserUtil.waitFor(2);
-
-         expectedStatus=inactive;
+        expectedStatus=inactive;
+        this.activeStatus=active;
     }
+
+
     @When("the user clicks save changes button")
     public void the_user_clicks_save_changes_button() {
 
-        usersPage.saveChanges.click();
-        System.out.println("----> Users "+email+" is deactivated");
+    usersPage.saveChanges.click();
+        System.out.println("---------> Users " +email+" is Deactivated");
 
     }
+
+
     @Then("{string} message should appear")
-    public void message_should_appear(String expectedMessage) {
-        // Maybe this message will appear dynamicly.In that case  you need to handle time issue with Explicit Wait
+    public void message_should_appear(String expectedMsg) {
+        // maybe this message will appear dynamically In that case we need to handle time issue with Explicit Wait
         BrowserUtil.waitFor(1);
-        String actualMessage = usersPage.toastMessage.getText();
-        Assert.assertEquals(expectedMessage,actualMessage);
+        String actualMsg = usersPage.toastMessage.getText();
+        Assert.assertEquals(expectedMsg,actualMsg);
 
     }
+
+
     @Then("the users should see same status for related user in database")
     public void the_users_should_see_same_status_for_related_user_in_database() {
 
-        DB_Util.runQuery("select status from users where email='"+email+"'");
+        DB_Util.runQuery("select status from users\n" +
+                "where email ='"+email+"'");
 
-        //Get data
+        //Get Data
         String actualStatus = DB_Util.getFirstRowFirstColumn();
-
-        //verify
         Assert.assertEquals(expectedStatus,actualStatus);
 
 
     }
+
+
     @Then("the user changes current user status {string} to {string}")
     public void the_user_changes_current_user_status_to(String inactive, String active) {
-            // This step for switch users page to INACTIVE users
-            BrowserUtil.waitFor(1);
-            BrowserUtil.selectByVisibleText(usersPage.userStatusDropdown,inactive);
+    BrowserUtil.waitFor(1);
+    BrowserUtil.selectByVisibleText(usersPage.userStatusDropdown,inactive);
 
-            //to find current we need expand page.Thats why we created one more step to see all user in one page
-            // if you have more than 500 create loop to find your users (next page )
-            BrowserUtil.waitFor(1);
-            BrowserUtil.selectByVisibleText(usersPage.NumberOfUserDropdown,"500");
-
-
-            // We are gonna click editUser button for current user in INACTIVE PAGE
-            BrowserUtil.waitFor(1);
-            usersPage.editUser(email).click();
-
-            // We updated current user status INACTIVE to ACTIVE
-            BrowserUtil.waitFor(1);
-            BrowserUtil.selectByVisibleText(usersPage.statusDropdown,active);
-
-            //Click save changes
-            BrowserUtil.waitFor(1);
-            usersPage.saveChanges.click();
-
-            System.out.println("----> Users "+email+" is activated");
-
+    BrowserUtil.waitFor(1);
+    usersPage.editUser(email).click();
 
     }
+
+
+
+
 }

@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class UsersPage extends BasePage {
+
+
     @FindBy(xpath = "(//tbody//a[@role='button'])[1]")
     public WebElement editUser;
 

@@ -1,4 +1,4 @@
-@wip
+
 Feature: Login Functionality
   @db
   Scenario: Login with valid credentials

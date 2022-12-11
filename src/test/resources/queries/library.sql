@@ -15,6 +15,10 @@ where name='Agile Testing';
 select full_name from users
 where email ='librarian55@library';
 
-select full_name from users
-where email='librarian55@library';
+select * from users;
+
+select status from users
+where email ='""';
+
+
 
