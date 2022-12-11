@@ -4,9 +4,12 @@ import com.cydeo.pages.BookPage;
 import com.cydeo.pages.DashBoardPage;
 import com.cydeo.utility.BrowserUtil;
 import com.cydeo.utility.DB_Util;
+import com.cydeo.utility.Driver;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.junit.Test;
+
 import java.util.List;
 import java.util.Map;
 
@@ -82,18 +85,41 @@ public class BooksStepDefs {
         //Get Data from UI
         String actualBookName = bookPage.bookName.getAttribute("value");
         String actualAuthorName = bookPage.author.getAttribute("value");
+        String actualISBN = bookPage.isbn.getAttribute("value");
+        String actualYear = bookPage.year.getAttribute("value");
+        String actualDescription = bookPage.description.getAttribute("value");
+
+
 
         // get data from Database
-        bookPage.isbn.getAttribute("value");
-        bookPage.year.getAttribute("value");
-        bookPage.description.getAttribute("value");
-        
 
+        String query = "select name,isbn,author,description,year from books\n" +
+                "where name='"+bookName+"'";
+        DB_Util.runQuery(query);
 
+        //Store information
+        Map<String, String> bookInfo = DB_Util.getRowMap(1);
 
+        System.out.println("DATA FROM DATABASE");
 
+        String expectedBookName = bookInfo.get("name");
+
+        System.out.println(expectedBookName);
+
+        String expectedAuthorName = bookInfo.get("author");
+        String expectedISBN = bookInfo.get("isbn");
+        String expectedYear = bookInfo.get("year");
+        String expectedDescription = bookInfo.get("description");
 
         //compare
+
+        Assert.assertEquals(expectedBookName,actualBookName);
+        Assert.assertEquals(expectedAuthorName,actualAuthorName);
+        Assert.assertEquals(expectedISBN,actualISBN);
+        Assert.assertEquals(expectedYear,actualYear);
+        Assert.assertEquals(expectedDescription,actualDescription);
+
+
 
 
 
